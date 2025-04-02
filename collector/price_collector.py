@@ -1,0 +1,1 @@
+# price_collector.py - Arquivo base do projeto Zox

@@ -1,0 +1,1 @@
+# __init__.py - Arquivo base do projeto Zox
