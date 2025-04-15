@@ -1,3 +1,5 @@
+print("🔧 Zox coletor iniciou! Verificando execução...")
+
 import time
 import requests
 import psycopg2
@@ -7,13 +9,11 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# 📌 CONFIGURAÇÕES
 MOEDA = 'BNBUSDT'
-INTERVALO = 5  # segundos
+INTERVALO = 5
 
-# 📦 CONEXÃO COM BANCO POSTGRESQL (Railway)
 conn = psycopg2.connect(
-    host="yamanote.proxy.rlwy.net",
+    host="SEU_HOST",
     dbname="railway",
     user="postgres",
     password=os.environ.get("POSTGRES_PASSWORD"),
@@ -21,7 +21,6 @@ conn = psycopg2.connect(
 )
 cursor = conn.cursor()
 
-# 🧱 CRIA A TABELA (se ainda não existir)
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS bd_ia (
     id SERIAL PRIMARY KEY,
@@ -32,7 +31,6 @@ CREATE TABLE IF NOT EXISTS bd_ia (
 """)
 conn.commit()
 
-# 🔁 LOOP INFINITO DE COLETA
 print(f"🔄 Iniciando coleta de {MOEDA} a cada {INTERVALO}s...")
 
 while True:
@@ -42,7 +40,7 @@ while True:
         preco = float(data['price'])
         agora = datetime.now()
 
-        cursor.execute("INSERT INTO bd_ia (moeda, preco, timestamp) VALUES (%s, %s, %s)", 
+        cursor.execute("INSERT INTO bd_ia (moeda, preco, timestamp) VALUES (%s, %s, %s)",
                        (MOEDA, preco, agora))
         conn.commit()
 
@@ -52,4 +50,3 @@ while True:
     except Exception as e:
         print("❌ Erro na coleta:", e)
         time.sleep(10)
-
