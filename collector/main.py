@@ -13,7 +13,7 @@ MOEDA = 'BNBUSDT'
 INTERVALO = 5
 
 conn = psycopg2.connect(
-    host="SEU_HOST",
+    host="postgres.railway.internal",
     dbname="railway",
     user="postgres",
     password=os.environ.get("POSTGRES_PASSWORD"),
