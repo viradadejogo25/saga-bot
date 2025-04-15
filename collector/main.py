@@ -37,6 +37,9 @@ while True:
     try:
         response = requests.get(f"https://api.binance.com/api/v3/ticker/price?symbol={MOEDA}")
         data = response.json()
+
+print("🧪 Resposta da Binance:", data)
+
         preco = float(data['price'])
         agora = datetime.now()
 
