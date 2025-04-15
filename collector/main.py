@@ -34,20 +34,20 @@ conn.commit()
 print(f"🔄 Iniciando coleta de {MOEDA} a cada {INTERVALO}s...")
 
 while True:
-try:
-    response = requests.get(f"https://api.binance.com/api/v3/ticker/price?symbol={MOEDA}")
-    data = response.json()
-    print("🧪 Resposta da Binance:", data)
-    preco = float(data['price'])
-    agora = datetime.now()
+    try:
+        response = requests.get(f"https://api.binance.com/api/v3/ticker/price?symbol={MOEDA}")
+        data = response.json()
+        print("🧪 Resposta da Binance:", data)
+        preco = float(data['price'])
+        agora = datetime.now()
 
-    cursor.execute("INSERT INTO bd_ia (moeda, preco, timestamp) VALUES (%s, %s, %s)",
-                   (MOEDA, preco, agora))
-    conn.commit()
+        cursor.execute("INSERT INTO bd_ia (moeda, preco, timestamp) VALUES (%s, %s, %s)",
+                       (MOEDA, preco, agora))
+        conn.commit()
 
-    print(f"[{agora.strftime('%H:%M:%S')}] {MOEDA} = {preco}")
-    time.sleep(INTERVALO)
+        print(f"[{agora.strftime('%H:%M:%S')}] {MOEDA} = {preco}")
+        time.sleep(INTERVALO)
 
-except Exception as e:
-    print("❌ Erro na coleta:", e)
-    time.sleep(10)
+    except Exception as e:
+        print("❌ Erro na coleta:", e)
+        time.sleep(10)
